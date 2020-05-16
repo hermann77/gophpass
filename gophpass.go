@@ -8,7 +8,6 @@ import (
     "crypto/rand"
     "crypto/sha512"
     "crypto/md5"
-    "encoding/base64"
     "errors"
     "io"
 )
@@ -33,7 +32,7 @@ type hashed struct {
 // InvalidCountError errors
 var InvalidCountError = errors.New("Invalid Count");
 var InvalidSaltError = errors.New("Invalid Salt");
-var bcEncoding = base64.NewEncoding(ITOA64)
+
 var countLog2 uint = 16
 
 
@@ -130,32 +129,53 @@ func validateSalt(salt []byte) bool {
 }
 
 
+func getCountLog2(setting []byte) (uint) {
+    return 16
+}
+
 // password crypt
 func encrypt(password []byte, setting []byte) ([]byte, error) {
-// func encrypt(password string, count uint, salt string) ([]byte, error) {    
-    // make sure we only pull the first 12 characters
-    setting = setting[0:12]
-    if !validateSalt(setting) {
-        return nil, InvalidSaltError
-    }
+ // make sure we only pull the first 12 characters
+ setting = setting[0:12]
+ if !validateSalt(setting) {
+     return nil, InvalidSaltError
+ }
 
-    salt := setting[4:12]
-    data := append(salt, password...)
+ countLog2 := getCountLog2(setting)
+ salt := setting[4:12]
+ data := append(salt, password...)
 
-    fmt.Printf("encrypt :: salt + password: %s \n", data)
+ fmt.Printf("encrypt :: salt + password: %s \n", data)
 
-    var i, rounds uint64
-    rounds = 1 << countLog2 // countLog2 = 16 by default and set as static var
-    
-    for i = 0; i < rounds; i++ {
-        checksum := sha512.Sum512(data)
-        // reinitialize data slice
-     //   data = checksum[0:64]
-        data = append(checksum[:64], password...) // in Drupal 8 we make hash from pervious hash + password
-    }
-    
-    output := append(setting, base64Encode(data)...)
-    return output[:55], nil
+ checksum := sha512.Sum512(data)
+
+fmt.Printf("encrypt :: erster Hash: %s \n", checksum)
+
+ var i, count uint64
+ count = 1 << countLog2
+ 
+fmt.Printf("encrypt :: count: %d \n", count)
+
+ i = 0
+ for count > 0 {
+     data = append(checksum[:], password...)
+     checksum = sha512.Sum512(data)
+
+     if i == 0 {
+         fmt.Printf("encrypt :: erster Hash im FOR: %s \n", checksum)
+     }
+     count--
+     i++
+ }
+
+ fmt.Printf("encrypt :: letzter Hash: %s \n", checksum)
+
+ fmt.Printf("encrypt :: setting: %s \n", setting)
+
+ fmt.Printf("encrypt :: base64 vom letzten Hash: %s \n", base64Encode(checksum[:]))
+
+ output := append(setting, base64Encode(checksum[0:64])...)
+ return output[:55], nil
 }
 
 
@@ -216,7 +236,7 @@ func byteCheck(r *bytes.Buffer, b byte) bool {
     return true
 }
 
-
+/*
 func base64Encode(src []byte) []byte {
     n := bcEncoding.EncodedLen(len(src))
     dst := make([]byte, n)
@@ -226,16 +246,16 @@ func base64Encode(src []byte) []byte {
     }
     return dst[:n]
 }
-
+*/
 
 func main() {
    
-   /* 
-    hash, _ := HashedPassword("testPasswort", 16)
+    /*
+    hash, _ := HashedPassword("testPassword", 16)
     fmt.Printf("Hash: %s \n", hash)
     fmt.Printf("Hash-Length %d \n", len(hash))
    */
 
-    Check("testPasswort", "$S$EAyVqxsVM5L3tB2SJrbwYl4v8DfqJN5poY6uScb54cj3wVjEqTLC")
+    Check("testPassword", "$S$E3eCRmuOrWA5i7FqQDiWp3wKl/BBBE3WovWiU/i6z3568Iq/REOK")
     
 }
