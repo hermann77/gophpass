@@ -135,7 +135,8 @@ func getCountLog2(setting []byte) (uint) {
 
 // password crypt
 func encrypt(password []byte, setting []byte) ([]byte, error) {
- // make sure we only pull the first 12 characters
+ // setting is output of generateSalt() or it's stored hash   
+ // we pull only the first 12 characters
  setting = setting[0:12]
  if !validateSalt(setting) {
      return nil, InvalidSaltError
@@ -221,32 +222,7 @@ func Check(password string, hash string) bool {
     return false
 }
 
-// check if a byte is next up on the read buffer 
-func byteCheck(r *bytes.Buffer, b byte) bool {
-    got, err := r.ReadByte()
-    if err != nil {
-        return false
-    }
 
-    if got != b {
-        r.UnreadByte()
-        return false
-    }
-
-    return true
-}
-
-/*
-func base64Encode(src []byte) []byte {
-    n := bcEncoding.EncodedLen(len(src))
-    dst := make([]byte, n)
-    bcEncoding.Encode(dst, src)
-    for dst[n-1] == '=' {
-        n--
-    }
-    return dst[:n]
-}
-*/
 
 func main() {
    
@@ -256,6 +232,6 @@ func main() {
     fmt.Printf("Hash-Length %d \n", len(hash))
    */
 
-    Check("testPassword", "$S$E3eCRmuOrWA5i7FqQDiWp3wKl/BBBE3WovWiU/i6z3568Iq/REOK")
+ //   Check("testPassword", "$S$E3eCRmuOrWA5i7FqQDiWp3wKl/BBBE3WovWiU/i6z3568Iq/REOK")
     
 }
