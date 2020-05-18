@@ -26,7 +26,7 @@ const (
 type hashed struct {
     hash    []byte
     salt    []byte
-    count   int // allowed range is MinCount to MaxCount
+    count   uint // allowed range is MinCount to MaxCount
 }
 
 // InvalidCountError errors
@@ -64,15 +64,13 @@ func enforceLog2Boundaries(cLog2 uint) (uint) {
 // internal function to hash password
 func hashPassword(password []byte) (*hashed, error) {
 
-    hashCount := 16
-
-    if hashCount < MinHashCount {
-        hashCount = DefaultHashCount
+    if countLog2 < MinHashCount {
+        countLog2 = DefaultHashCount
     }
     p := new(hashed)
-    p.count = hashCount
+    p.count = countLog2
 
-    newSalt, err := generateSalt(hashCount)
+    newSalt, err := generateSalt(countLog2)
     if err != nil {
         return nil, err
     }
@@ -88,7 +86,7 @@ func hashPassword(password []byte) (*hashed, error) {
 
 
 // generate salt
-func generateSalt(hashCount int) ([]byte, error) {
+func generateSalt(hashCount uint) ([]byte, error) {
     // new buffer
     rs := bytes.NewBuffer(make([]byte, 0, 61))
     // append $S$
@@ -226,12 +224,13 @@ func Check(password string, hash string) bool {
 
 func main() {
    
-    /*
+    
     hash, _ := HashedPassword("testPassword", 16)
     fmt.Printf("Hash: %s \n", hash)
     fmt.Printf("Hash-Length %d \n", len(hash))
-   */
+   
 
- //   Check("testPassword", "$S$E3eCRmuOrWA5i7FqQDiWp3wKl/BBBE3WovWiU/i6z3568Iq/REOK")
-    
+    Check("testPassword", "$S$E7GeZ.hkaOno/lUX02c5pwVBrCju3eMA/.Hwzmv8FYZgmSksudRP")
+ 
+
 }
