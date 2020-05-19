@@ -4,10 +4,9 @@ import (
     "encoding/base64"
 )
 
-
 // MyEncoding is Alias/Composition of struct Encoding
 type MyEncoding struct {
-    base64.Encoding
+    base64.Encoding		// extend base64.Encoding because 
     encode    [64]byte
     decodeMap [256]byte
     padChar   rune
@@ -28,13 +27,12 @@ func base64Encode(src []byte) []byte {
     n := bcEncoding.EncodedLen(len(src))
     dst := make([]byte, n)
 
-
     MyNewEncoding(alphabet).MyEncode(dst, src)
-
     return dst
 }
 
-// MyEncode is a Composition class of Encoding
+// MyEncode is overridden methode base64.Encoding.Encode() (polymorphism) 
+// MyEncoding is a Composition class of Encoding
 func (enc *MyEncoding) MyEncode(dst, src []byte) {
 	if len(src) == 0 {
 		return
@@ -88,7 +86,7 @@ func (enc *MyEncoding) MyEncode(dst, src []byte) {
 	}
 }
 
-// MyNewEncoding
+// MyNewEncoding overrides base64.Encoding.NewEncoding()
 func MyNewEncoding(encoder string) *MyEncoding {
 	if len(encoder) != 64 {
 		panic("encoding alphabet is not 64-bytes long")
