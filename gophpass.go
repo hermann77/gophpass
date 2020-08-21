@@ -128,7 +128,12 @@ func validateSalt(salt []byte) bool {
 
 
 func getCountLog2(setting []byte) (uint) {
-    return 16
+
+    roundsChar := setting[3:4] // a carachter saved in hash after $S$... The position of this char in alphabet is log2 of rounds number
+    ITOA64asByte := []byte(ITOA64)
+    roundsLog2 := uint(bytes.Index(ITOA64asByte, roundsChar))
+
+    return roundsLog2 // if 'E' is placed after $S$
 }
 
 // password crypt
@@ -140,7 +145,7 @@ func encrypt(password []byte, setting []byte) ([]byte, error) {
      return nil, InvalidSaltError
  }
 
- countLog2 := getCountLog2(setting)
+ countLog2 := getCountLog2(setting) // @TODO: implement return depending on innput argument
  salt := setting[4:12]
  data := append(salt, password...)
 
@@ -224,13 +229,14 @@ func Check(password string, hash string) bool {
 
 func main() {
    
-    
+ /*   
     hash, _ := HashedPassword("testPassword", 16)
     fmt.Printf("Hash: %s \n", hash)
     fmt.Printf("Hash-Length %d \n", len(hash))
-   
+*/
 
-    Check("testPassword", "$S$E7GeZ.hkaOno/lUX02c5pwVBrCju3eMA/.Hwzmv8FYZgmSksudRP")
- 
+    Check("testPassword", "$S$Em2lMf9zE4rj0yyTNb3X5n7eyl/ST8aZ0lADIwlPOR5f.m9HhUxw")
+
+
 
 }
