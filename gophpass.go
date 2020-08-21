@@ -1,5 +1,5 @@
 // Implementing Drupal 8 phpass algorithm in go
-package main
+package gophpass
 
 // import bcrypt
 import (

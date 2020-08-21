@@ -1,4 +1,4 @@
-package main
+package gophpass
 
 import (
     "encoding/base64"
