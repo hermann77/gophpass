@@ -133,8 +133,6 @@ func getCountLog2(setting []byte) (uint) {
     ITOA64asByte := []byte(ITOA64)
     roundsLog2 := uint(bytes.Index(ITOA64asByte, roundsChar))
 
-fmt.Printf("roundsLog2: %d", roundsLog2)
-
     return roundsLog2 // if 'E' is placed after $S$
 }
 
@@ -150,35 +148,18 @@ func encrypt(password []byte, setting []byte) ([]byte, error) {
  countLog2 := getCountLog2(setting) // @TODO: implement return depending on innput argument
  salt := setting[4:12]
  data := append(salt, password...)
-
- fmt.Printf("encrypt :: salt + password: %s \n", data)
-
  checksum := sha512.Sum512(data)
-
-fmt.Printf("encrypt :: erster Hash: %s \n", checksum)
 
  var i, count uint64
  count = 1 << countLog2
  
-fmt.Printf("encrypt :: count: %d \n", count)
-
  i = 0
  for count > 0 {
      data = append(checksum[:], password...)
      checksum = sha512.Sum512(data)
-
-     if i == 0 {
-         fmt.Printf("encrypt :: erster Hash im FOR: %s \n", checksum)
-     }
-     count--
+      count--
      i++
  }
-
- fmt.Printf("encrypt :: letzter Hash: %s \n", checksum)
-
- fmt.Printf("encrypt :: setting: %s \n", setting)
-
- fmt.Printf("encrypt :: base64 vom letzten Hash: %s \n", base64Encode(checksum[:]))
 
  output := append(setting, base64Encode(checksum[0:64])...)
  return output[:55], nil
@@ -191,7 +172,7 @@ func Check(password string, hash string) bool {
     storedHash := hash
 
     if hash[:2] == "U$" {
-        fmt.Printf("Drupal 7 md5 hashes")
+        // Drupal 7 md5 hash
         storedHash = hash[1:]
 
         passwordString := md5.New()
@@ -203,7 +184,7 @@ func Check(password string, hash string) bool {
 
     switch hashType {
     case "$S$":
-        fmt.Printf("Drupal 7/8 sha512 hashes\n")
+        // Drupal 7/8 sha512 hashes
         passwordByte := []byte(password)
         storedHashByte := []byte(storedHash)
         computedHash, _ := encrypt(passwordByte, storedHashByte)
