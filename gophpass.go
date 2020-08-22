@@ -193,7 +193,6 @@ func Check(password string, hash string) bool {
         fmt.Printf("computedHash %s \n", computedHash)
 
         if(storedHash == string(computedHash)) {
-            fmt.Printf("Hashes matched\n")
             return true
         }
         return false
