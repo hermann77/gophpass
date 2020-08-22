@@ -18,17 +18,20 @@ func main() {
 	flag.StringVar(&hash, "hash", "", "Hash you want to validate")
 	flag.Parse()
 	if len(flag.Args()) > 1 {
-		password = flag.Args()[0]
-		hash = flag.Args()[1]
+		if password == "" {
+			password = flag.Args()[0]
+		}
+		if hash == "" {
+			hash = flag.Args()[1]
+		}
 	}
 
 	if gophpass.Check(password, hash) {
-		fmt.Printf("Password and Hash matched\n")
+		fmt.Printf("1. Password and Hash matched\n")
 	} else {
-		fmt.Printf("Password and Hash are NOT matched\n")
+		fmt.Printf("1. Password and Hash are NOT matched\n")
 		os.Exit(1)
 	}
-  
 	 
 }
    
