@@ -9,7 +9,6 @@ import (
 
 
 
-
 func main() {
    
 	/*   
@@ -18,8 +17,8 @@ func main() {
 	   fmt.Printf("Hash-Length %d \n", len(hash))
    */
    
-	   Check("testPassword", "$S$Em2lMf9zE4rj0yyTNb3X5n7eyl/ST8aZ0lADIwlPOR5f.m9HhUxw")
-   
+	   gophpass.Check("testPassword", "$S$Em2lMf9zE4rj0yyTNb3X5n7eyl/ST8aZ0lADIwlPOR5f.m9HhUxw")
+
 	
    
    }
