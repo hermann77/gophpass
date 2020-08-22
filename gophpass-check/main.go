@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-//	"strings"
+	"strings"
 
 	"github.com/hermann77/gophpass"
 )
@@ -19,7 +19,7 @@ func main() {
 	flag.Parse()
 	if len(flag.Args()) > 1 {
 		if password == "" {
-			password = flag.Args()[0]
+			password = strings.Join(flag.Args()[1:], "")
 		}
 		if hash == "" {
 			hash = flag.Args()[1]
