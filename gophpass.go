@@ -133,6 +133,8 @@ func getCountLog2(setting []byte) (uint) {
     ITOA64asByte := []byte(ITOA64)
     roundsLog2 := uint(bytes.Index(ITOA64asByte, roundsChar))
 
+fmt.Printf("roundsLog2: %d", roundsLog2)
+
     return roundsLog2 // if 'E' is placed after $S$
 }
 
