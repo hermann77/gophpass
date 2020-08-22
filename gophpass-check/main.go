@@ -1,21 +1,34 @@
 package main
 
 import (
+	"flag"
+	"fmt"
+	"os"
+//	"strings"
+
 	"github.com/hermann77/gophpass"
 )
 
-
+var password = ""
+var hash = ""
 
 func main() {
    
-	/*   
-	   hash, _ := HashedPassword("testPassword", 16)
-	   fmt.Printf("Hash: %s \n", hash)
-	   fmt.Printf("Hash-Length %d \n", len(hash))
-   */
-   
-	   gophpass.Check("testPassword", "$S$Em2lMf9zE4rj0yyTNb3X5n7eyl/ST8aZ0lADIwlPOR5f.m9HhUxw")
+	flag.StringVar(&password, "password", "", "password you want to check against a hash")
+	flag.StringVar(&hash, "hash", "", "Hash you want to validate")
+	flag.Parse()
+	if len(flag.Args()) > 1 {
+		password = flag.Args()[0]
+		hash = flag.Args()[1]
+	}
 
+	if gophpass.Check(password, hash) {
+		fmt.Printf("Password and Hash matched\n")
+	} else {
+		fmt.Printf("Password and Hash are NOT matched\n")
+		os.Exit(1)
+	}
+  
 	 
-   }
+}
    
