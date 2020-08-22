@@ -11,5 +11,7 @@ go install ./src/gophpass/gophpass-check
 Usage:
 
 ```bash
-bin/gophpass-check
+bin/gophpass-check 'PASSWORD' 'HASH'
+or
+bin/gophpass-check -password="PASSWORD" -hash="HASH"
 ```
