@@ -25,16 +25,16 @@ func main() {
 
 	if len(flag.Args()) > 1 {
 		if password == "" {
-			password = strings.Join(flag.Args()[1:], "")
-			fmt.Printf("password par: %s", password)
+			password = strings.Join(flag.Args()[0], "")
+			fmt.Printf("password par: %s\n", password)
 		} else {
-			fmt.Printf("password NAMED par: %s", password)
+			fmt.Printf("password NAMED par: %s\n", password)
 		}
 		if *hash == "" {
 			hash = &flag.Args()[1]
-			fmt.Printf("hash par: %s", *hash)
+			fmt.Printf("hash par: %s\n", *hash)
 		} else {
-			fmt.Printf("hash NAMED par: %s", *hash)
+			fmt.Printf("hash NAMED par: %s\n", *hash)
 		}
 	}
 
