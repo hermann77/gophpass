@@ -18,8 +18,11 @@ func main() {
 	flag.StringVar(&hash, "hash", "", "Hash you want to validate")
 	flag.Parse()
 	
-	fmt.Printf("flagARgsLength: %d", len(flag.Args()))
-	
+	fmt.Printf("flagARgsLength: %d \n", len(flag.Args()))
+
+	fmt.Printf("password: %s", password)
+	fmt.Printf("hash: %s", hash)
+
 	if len(flag.Args()) > 1 {
 		if password == "" {
 			password = strings.Join(flag.Args()[1:], "")
