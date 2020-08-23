@@ -12,10 +12,10 @@ import (
 func main() {
 
 	var password string
-	var hash string
+	var hash *string
 
 	flag.StringVar(&password, "password", "", "password you want to check against a hash")
-	flag.StringVar(&hash, "hash", "", "Hash you want to validate")
+	hash = flag.String("hash", "", "Hash you want to validate")
 	flag.Parse()
 	
 	fmt.Printf("flagArgsLength: %d \n", len(flag.Args()))
@@ -30,8 +30,8 @@ func main() {
 		} else {
 			fmt.Printf("password NAMED par: %s", password)
 		}
-		if hash == "" {
-			hash = flag.Args()[1]
+		if *hash == "" {
+			hash = &flag.Args()[1]
 			fmt.Printf("hash par: %s", hash)
 		} else {
 			fmt.Printf("hash NAMED par: %s", hash)
