@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"strings"
+//	"strings"
 
 	"github.com/hermann77/gophpass"
 )
