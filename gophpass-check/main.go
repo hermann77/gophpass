@@ -25,7 +25,7 @@ func main() {
 
 	if len(flag.Args()) > 1 {
 		if password == "" {
-			password = strings.Join(flag.Args()[0], "")
+			password = flag.Args()[0]
 			fmt.Printf("password par: %s\n", password)
 		} else {
 			fmt.Printf("password NAMED par: %s\n", password)
