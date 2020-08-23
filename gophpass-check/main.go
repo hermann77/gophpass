@@ -9,14 +9,17 @@ import (
 	"github.com/hermann77/gophpass"
 )
 
-var password = ""
-var hash = ""
-
 func main() {
-   
+
+	var password string
+	var hash string
+
 	flag.StringVar(&password, "password", "", "password you want to check against a hash")
 	flag.StringVar(&hash, "hash", "", "Hash you want to validate")
 	flag.Parse()
+	
+	fmt.Printf("flagARgsLength: %d", len(flag.Args()))
+	
 	if len(flag.Args()) > 1 {
 		if password == "" {
 			password = strings.Join(flag.Args()[1:], "")
