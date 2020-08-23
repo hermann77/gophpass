@@ -21,7 +21,7 @@ func main() {
 	fmt.Printf("flagArgsLength: %d \n", len(flag.Args()))
 
 	fmt.Printf("password: %s\n", password)
-	fmt.Printf("hash: %s\n", hash)
+	fmt.Printf("hash: %s\n", *hash)
 
 	if len(flag.Args()) > 1 {
 		if password == "" {
@@ -32,13 +32,13 @@ func main() {
 		}
 		if *hash == "" {
 			hash = &flag.Args()[1]
-			fmt.Printf("hash par: %s", hash)
+			fmt.Printf("hash par: %s", *hash)
 		} else {
-			fmt.Printf("hash NAMED par: %s", hash)
+			fmt.Printf("hash NAMED par: %s", *hash)
 		}
 	}
 
-	if gophpass.Check(password, hash) {
+	if gophpass.Check(password, *hash) {
 		fmt.Printf("2. Password and Hash matched\n")
 	} else {
 		fmt.Printf("2. Password and Hash are NOT matched\n")
