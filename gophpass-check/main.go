@@ -36,9 +36,9 @@ func main() {
 	}
 
 	if gophpass.Check(password, hash) {
-		fmt.Printf("2. Password and Hash matched\n")
+		fmt.Printf("3. Password and Hash matched\n")
 	} else {
-		fmt.Printf("2. Password and Hash are NOT matched\n")
+		fmt.Printf("3. Password and Hash are NOT matched\n")
 		os.Exit(1)
 	}
 	 
