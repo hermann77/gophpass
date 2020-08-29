@@ -1,4 +1,12 @@
 // Package gophpass is implementing Drupal 8 phpass algorithm in go
+// This package rovides the ability to create and validate by phpass hashed
+// passwords.  
+// For more details: http://www.openwall.com/phpass/ 
+// This code is a port of the Drupal 8 implimentation of phpass:
+// https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Password%21PhpassHashedPassword.php/8.2.x
+//
+// The code is not 100% complete. 
+
 package gophpass
 
 // import bcrypt
@@ -189,8 +197,8 @@ func Check(password string, hash string) bool {
         storedHashByte := []byte(storedHash)
         computedHash, _ := encrypt(passwordByte, storedHashByte)
 
-        fmt.Printf("storedHash %s \n", storedHash)
-        fmt.Printf("computedHash %s \n", computedHash)
+        fmt.Printf("*** storedHash %s \n", storedHash)
+        fmt.Printf("*** computedHash %s \n", computedHash)
 
         if(storedHash == string(computedHash)) {
             return true
